@@ -49,21 +49,41 @@ const emailInput = document.getElementById("email");
 const scentInput = document.getElementById("scent");
 const message = document.getElementById("message");
 
-form.addEventListener("submit", function (event) {
+// Supabase 專案網址與公開金鑰（publishable key 可放前端，資料安全由資料庫的 RLS 規則把關）
+const SUPABASE_URL = "https://oshjiunmpqbnhrdukpqe.supabase.co";
+const SUPABASE_KEY = "sb_publishable_874bPAok-Zq_Xswyp03tyw_mf5O4k2p";
+
+form.addEventListener("submit", async function (event) {
   // 阻止表單預設的換頁動作
   event.preventDefault();
+  message.textContent = "送出中...";
 
-  // 把訂閱者存在這台瀏覽器裡（沒有後端，所以只存本機）
-  const list = JSON.parse(localStorage.getItem("subscribers") || "[]");
-  const email = emailInput.value.trim();
+  try {
+    // 用 fetch 呼叫 Supabase，把一筆訂閱資料新增到 subscribers 資料表
+    const response = await fetch(SUPABASE_URL + "/rest/v1/subscribers", {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        scent: scentInput.value
+      })
+    });
 
-  if (list.some(function (item) { return item.email === email; })) {
-    message.textContent = "這個 Email 已經訂閱過囉";
-  } else {
-    // 每位訂閱者存成一筆：姓名、Email、感興趣的香調
-    list.push({ name: nameInput.value.trim(), email: email, scent: scentInput.value });
-    localStorage.setItem("subscribers", JSON.stringify(list));
-    message.textContent = "訂閱成功，感謝你的支持";
+    if (response.ok) {
+      message.textContent = "訂閱成功，感謝你的支持";
+      form.reset();
+    } else if (response.status === 409) {
+      // 409 代表 Email 重複（資料表限制 email 不可重複）
+      message.textContent = "這個 Email 已經訂閱過囉";
+    } else {
+      message.textContent = "訂閱失敗，請稍後再試";
+    }
+  } catch (error) {
+    message.textContent = "網路連線失敗，請稍後再試";
   }
-  form.reset();
 });
