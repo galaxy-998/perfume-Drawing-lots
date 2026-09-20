@@ -1,0 +1,188 @@
+/* ===== 基本設定：冷色系優雅奢華 ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #e8f1fa;
+  font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+  /* 深藍夜空漸層背景 */
+  background: radial-gradient(circle at top, #1c2e4a 0%, #0b1220 70%);
+}
+
+h1 {
+  font-size: 2.4rem;
+  letter-spacing: 0.5rem;
+  font-weight: 400;
+  color: #cfe3f5;
+}
+
+.subtitle {
+  margin: 10px 0 50px;
+  color: #8ba4bd;
+  letter-spacing: 0.15rem;
+}
+
+/* ===== 舞台 ===== */
+.stage {
+  position: relative;
+  width: 220px;
+  height: 260px;
+  margin: 0 auto 50px;
+}
+
+/* 開箱時的光暈 */
+.glow {
+  position: absolute;
+  left: 50%;
+  bottom: 60px;
+  width: 260px;
+  height: 260px;
+  margin-left: -130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(170, 215, 255, 0.9), transparent 70%);
+  opacity: 0;
+  transform: scale(0.2);
+}
+
+/* ===== 禮盒 ===== */
+.box {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 200px;
+  height: 130px;
+  z-index: 3; /* 盒子蓋在卡片前面，卡片才有「從盒裡升起」的感覺 */
+}
+
+.body {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(135deg, #3a5578, #1d3049);
+  border: 1px solid #9fc2e6;
+  border-radius: 4px;
+}
+
+.lid {
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 216px;
+  height: 36px;
+  background: linear-gradient(135deg, #506f96, #2a4363);
+  border: 1px solid #b9d6f2;
+  border-radius: 4px;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  z-index: 2;
+}
+
+/* 銀色緞帶 */
+.ribbon {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 24px;
+  height: 130px;
+  margin-left: -12px;
+  background: linear-gradient(90deg, #c9d6e3, #f4f9ff, #c9d6e3);
+  z-index: 1;
+  transition: opacity 0.5s;
+}
+
+/* ===== 結果卡片 ===== */
+.card {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  width: 200px;
+  height: 100px;
+  margin-left: -100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  letter-spacing: 0.2rem;
+  color: #0b1220;
+  background: linear-gradient(135deg, #f4f9ff, #b9d6f2);
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 0 30px rgba(170, 215, 255, 0.6);
+  opacity: 0;
+  z-index: 2;
+  /* 收回時速度快、不延遲 */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ===== 開箱狀態（由 script.js 加上 opened 這個 class） ===== */
+/* 盒蓋先往上飄走並淡出，才不會擋到名字 */
+.stage.opened .lid {
+  transform: translateY(-80px) rotate(-12deg);
+  opacity: 0;
+}
+
+.stage.opened .ribbon {
+  opacity: 0;
+}
+
+/* 等盒蓋打開完（0.8 秒）後，卡片才升起 */
+.stage.opened .card {
+  opacity: 1;
+  transform: translateY(-150px);
+  transition: transform 1s ease 0.8s, opacity 0.4s ease 0.8s;
+}
+
+.stage.opened .glow {
+  animation: burst 1.6s ease-out 0.8s forwards;
+}
+
+/* 盒子搖晃（開箱前的期待感） */
+.stage.shaking .box {
+  animation: shake 0.6s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-6deg); }
+  40% { transform: rotate(6deg); }
+  60% { transform: rotate(-4deg); }
+  80% { transform: rotate(4deg); }
+}
+
+@keyframes burst {
+  0%   { opacity: 0; transform: scale(0.2); }
+  40%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.35; transform: scale(1.2); }
+}
+
+/* ===== 按鈕 ===== */
+button {
+  padding: 14px 44px;
+  font-size: 1.1rem;
+  letter-spacing: 0.3rem;
+  font-family: inherit;
+  color: #0b1220;
+  background: linear-gradient(135deg, #f4f9ff, #9fc2e6);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(170, 215, 255, 0.4);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}

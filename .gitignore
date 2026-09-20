@@ -1,0 +1,26 @@
+# 機密與金鑰
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+secrets.*
+credentials*
+
+# Claude 本機個人設定（CLAUDE.md 可保留共用）
+.claude/settings.local.json
+
+# 含個人資料的檔案（顧客回饋、銷售明細），如需版控請自行移除下列行
+顧客回饋摘錄.txt
+門市每日銷售.csv
+
+# 系統與暫存檔
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+*.tmp
+*.log
