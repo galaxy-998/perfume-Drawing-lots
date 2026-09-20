@@ -25,6 +25,23 @@
     </div>
 
     <button id="drawBtn">開啟禮盒</button>
+
+    <!-- 訂閱表單 -->
+    <form id="subscribeForm" class="subscribe">
+      <p>訂閱最新香氣資訊</p>
+      <input type="text" id="name" placeholder="請輸入你的姓名" required>
+      <input type="email" id="email" placeholder="請輸入你的 Email" required>
+      <select id="scent" required>
+        <option value="" disabled selected>感興趣的香調</option>
+        <option>木質調</option>
+        <option>花香調</option>
+        <option>柑橘調</option>
+        <option>東方調</option>
+        <option>清新調</option>
+      </select>
+      <button type="submit">訂閱</button>
+      <p id="message" class="message"></p>
+    </form>
   </main>
 
   <script src="script.js"></script>

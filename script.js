@@ -41,3 +41,29 @@ drawBtn.addEventListener("click", function () {
     drawBtn.textContent = "再抽一次";
   }, 3900);
 });
+
+// ===== 訂閱表單 =====
+const form = document.getElementById("subscribeForm");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const scentInput = document.getElementById("scent");
+const message = document.getElementById("message");
+
+form.addEventListener("submit", function (event) {
+  // 阻止表單預設的換頁動作
+  event.preventDefault();
+
+  // 把訂閱者存在這台瀏覽器裡（沒有後端，所以只存本機）
+  const list = JSON.parse(localStorage.getItem("subscribers") || "[]");
+  const email = emailInput.value.trim();
+
+  if (list.some(function (item) { return item.email === email; })) {
+    message.textContent = "這個 Email 已經訂閱過囉";
+  } else {
+    // 每位訂閱者存成一筆：姓名、Email、感興趣的香調
+    list.push({ name: nameInput.value.trim(), email: email, scent: scentInput.value });
+    localStorage.setItem("subscribers", JSON.stringify(list));
+    message.textContent = "訂閱成功，感謝你的支持";
+  }
+  form.reset();
+});

@@ -186,3 +186,52 @@ button:disabled {
   opacity: 0.5;
   cursor: wait;
 }
+
+/* ===== 訂閱表單 ===== */
+.subscribe {
+  max-width: 380px;
+  margin: 60px auto 0;
+  padding-top: 30px;
+  border-top: 1px solid rgba(159, 194, 230, 0.3);
+  color: #8ba4bd;
+  letter-spacing: 0.1rem;
+}
+
+/* 欄位由上往下排 */
+.subscribe {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subscribe input,
+.subscribe select {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: inherit;
+  color: #e8f1fa;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid #3a5578;
+  border-radius: 30px;
+  outline: none;
+}
+
+/* 下拉選單展開後的選項用深色字，避免白底看不到 */
+.subscribe select option {
+  color: #0b1220;
+}
+
+.subscribe input:focus,
+.subscribe select:focus {
+  border-color: #9fc2e6;
+}
+
+.subscribe button {
+  padding: 12px 24px;
+  letter-spacing: 0.3rem;
+}
+
+.message {
+  min-height: 1.5em;
+  color: #b9d6f2;
+}
